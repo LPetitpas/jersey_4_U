@@ -51,7 +51,7 @@ function ListJersey() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {filtered.map(jersey => (
                         <JerseyCard
-                            key={jersey.id}
+                            id={jersey.id}
                             src={jersey.src}
                             name={jersey.name}
                             prix={jersey.prix}

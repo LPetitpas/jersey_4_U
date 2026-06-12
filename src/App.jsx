@@ -7,6 +7,7 @@ import Nav from './components/Nav'
 import ListJersey from './components/ListJersey'
 import Infos from './components/Infos'
 import Admin from './components/Admin'
+import DetailJersey from './components/DetailJersey'
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='/jersey' element={<ListJersey />} />
         <Route path='/infos' element={<Infos/>}/>      
         <Route path='/admin' element={<Admin />} />
+        <Route path='/jersey/:id' element={<DetailJersey/>}/>
 
       </Routes>
       <Footer />
