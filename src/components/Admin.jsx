@@ -2,13 +2,14 @@ import { useState, useEffect } from "react"
 import { supabase } from "../supabaseClient"
 
 const MOT_DE_PASSE = "jersey4u2025"
+const CATEGORIES = ["Hockey", "Soccer", "Basketball", "Football", "Baseball","Formule1"]
 
 function Admin() {
     const [connecte, setConnecte] = useState(false)
     const [mdp, setMdp] = useState("")
     const [erreur, setErreur] = useState("")
     const [jerseys, setJerseys] = useState([])
-    const [form, setForm] = useState({ name: "", prix: "" })
+    const [form, setForm] = useState({ name: "", prix: "" , categorie:""})
     const [image, setImage] = useState(null)
     const [apercu, setApercu] = useState(null)
     const [message, setMessage] = useState("")
@@ -68,6 +69,7 @@ function Admin() {
         const { error } = await supabase.from("jersey").insert([{
             name: form.name,
             prix: parseInt(form.prix),
+            categorie:  form.categorie,
             src: urlData.publicUrl
         }])
 
@@ -75,7 +77,7 @@ function Admin() {
             setMessage("Erreur : " + error.message)
         } else {
             setMessage("Chandail ajouté !")
-            setForm({ name: "", prix: "" })
+            setForm({ name: "", prix: "" ,categorie:""})
             setImage(null)
             setApercu(null)
             fetchJerseys()
@@ -139,6 +141,33 @@ function Admin() {
                         onChange={e => setForm({ ...form, prix: e.target.value })}
                         className="bg-zinc-950 border border-zinc-800 text-white px-4 py-3 text-sm tracking-wider outline-none focus:border-white transition-colors"
                     />
+                   {/* Catégorie — radio */}
+                    <div>
+                        <p className="text-zinc-600 text-xs font-bold uppercase tracking-[0.3em] mb-3">Catégorie</p>
+                        <div className="flex flex-wrap gap-3">
+                            {CATEGORIES.map(cat => (
+                                <label
+                                    key={cat}
+                                    className={`flex items-center gap-2 px-4 py-2 border cursor-pointer transition-all duration-150 text-xs font-bold uppercase tracking-widest ${
+                                        form.categorie === cat
+                                            ? "border-white text-white bg-white text-black"
+                                            : "border-zinc-700 text-zinc-500 hover:border-white hover:text-white"
+                                    }`}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="categorie"
+                                        value={cat}
+                                        checked={form.categorie === cat}
+                                        onChange={e => setForm({ ...form, categorie: e.target.value })}
+                                        className="hidden"
+                                    />
+                                    {cat}
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
 
                     {/* Upload image */}
                     <label className="border border-dashed border-zinc-700 hover:border-white transition-colors cursor-pointer flex flex-col items-center justify-center py-8 gap-3">
